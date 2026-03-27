@@ -1,0 +1,27 @@
+{
+  "name": "main",
+  "version": "0.1.0",
+  "description": "A proxy that works good",
+  "keywords": [
+    "proxy"
+  ],
+  "homepage": "https://github.com/mathgameswtf/codespaces-proxy#readme",
+  "bugs": {
+    "url": "https://github.com/mathgameswtf/codespaces-proxy/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mathgameswtf/codespaces-proxy.git"
+  },
+  "license": "ISC",
+  "author": "mathgameswtf",
+  "type": "commonjs",
+  "main": "main.js",
+  "scripts": {
+    "test": "test"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "express-http-proxy": "^2.1.2"
+  }
+}
