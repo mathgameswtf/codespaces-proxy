@@ -6,7 +6,7 @@ const PORT = 3000;
 
 app.use(express.static('public'));
 
-app.use('/proxy', createProxyMiddleware({
+app.use('/', createProxyMiddleware({
   target: 'https://duckduckgo.com',
   changeOrigin: true,
   pathRewrite: { '^/proxy': '' },
