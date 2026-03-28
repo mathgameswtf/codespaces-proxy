@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proxy Browser</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0f0f0f;
+      color: #e8e8e8;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      color: #fff;
+    }
+
+    .search-bar {
+      display: flex;
+      width: 100%;
+      max-width: 600px;
+      gap: 8px;
+      padding: 0 16px;
+    }
+
+    input {
+      flex: 1;
+      padding: 14px 18px;
+      border-radius: 10px;
+      border: 1px solid #333;
+      background: #1a1a1a;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus {
+      border-color: #555;
+    }
+
+    input::placeholder {
+      color: #555;
+    }
+
+    button {
+      padding: 14px 22px;
+      border-radius: 10px;
+      border: none;
+      background: #2a2a2a;
+      color: #ccc;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #333;
+    }
+
+    .shortcuts {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 600px;
+      padding: 0 16px;
+    }
+
+    .shortcut {
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      color: #aaa;
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .shortcut:hover {
+      background: #252525;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <h1>Proxy Browser</h1>
+
+  <div class="search-bar">
+    <input
+      id="url-input"
+      type="text"
+      placeholder="Enter a URL or search query..."
+      autofocus
+    />
+    <button onclick="navigate()">Go</button>
+  </div>
+
+  <div class="shortcuts">
+    <a class="shortcut" href="/proxy/https/duckduckgo.com">DuckDuckGo</a>
+    <a class="shortcut" href="/proxy/https/wikipedia.org">Wikipedia</a>
+    <a class="shortcut" href="/proxy/https/genizymath.github.io/">Genizymath!!</a>
+    <a class="shortcut" href="/proxy">placeholder</a>
+  </div>
+
+  <script>
+    const input = document.getElementById('url-input');
+
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') navigate();
+    });
+
+    function navigate() {
+      let val = input.value.trim();
+      if (!val) return;
+
+      let url;
+      // If it looks like a URL, proxy it directly
+      if (/^https?:\/\//.test(val)) {
+        url = '/proxy/' + val.replace('://', '/');
+      } else if (/^[\w-]+(\.[a-z]{2,})(\/|$)/i.test(val)) {
+        // Looks like a bare domain e.g. youtube.com
+        url = '/proxy/https/' + val;
+      } else {
+        // Treat as a search query
+        url = '/proxy/https/duckduckgo.com/?q=' + encodeURIComponent(val);
+      }
+
+      window.location.href = url;
+    }
+  </script>
+</body>
+</html>
