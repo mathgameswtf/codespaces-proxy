@@ -1,21 +1,25 @@
 import express from 'express';
-import { createProxyMiddleware } from 'express-http-proxy';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
 const app = express();
 const PORT = 3000;
 
-// Serve static files
 app.use(express.static('public'));
 
-// Proxy requests to google.com
 app.use('/proxy', createProxyMiddleware({
-    target: 'https://www.google.com',
-    changeOrigin: true,
-    pathRewrite: {
-        '^/proxy': ''
+  target: 'https://duckduckgo.com',
+  changeOrigin: true,
+  pathRewrite: { '^/proxy': '' },
+  selfHandleResponse: false,
+  on: {
+    proxyRes: (proxyRes) => {
+      // Remove security headers that block loading
+      delete proxyRes.headers['content-security-policy'];
+      delete proxyRes.headers['x-frame-options'];
     }
+  }
 }));
 
 app.listen(PORT, () => {
-    console.log(`Proxy server running on http://localhost:${PORT}`);
+  console.log(`Proxy server running on http://localhost:${PORT}`);
 });
